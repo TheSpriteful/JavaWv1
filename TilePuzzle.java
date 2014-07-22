@@ -1,5 +1,3 @@
-package ca4;
-
 import java.awt.*;
 
 import javax.swing.*;
