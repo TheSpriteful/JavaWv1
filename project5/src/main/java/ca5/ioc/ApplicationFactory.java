@@ -3,6 +3,8 @@ package ca5.ioc;
 import ca5.ApplicationController;
 import ca5.event.core.EventBus;
 import ca5.presenter.ShellPresenter;
+import ca5.service.MovieService;
+import ca5.service.impl.MovieServiceDummyImpl;
 import ca5.ui.ShellView;
 import ca5.ui.impl.ShellViewImpl;
 
@@ -64,10 +66,14 @@ public class ApplicationFactory {
     return executorService;
   }
 
+  private MovieService getMovieService() {
+    return new MovieServiceDummyImpl();
+  }
+
   private ShellPresenter getShellPresenter() {
     if (shellPresenter == null) {
       ShellView shellView = getShellView();
-      shellPresenter = new ShellPresenter(getEventBus(), shellView);
+      shellPresenter = new ShellPresenter(getEventBus(), getMovieService(), shellView);
       shellView.setDelegate(shellPresenter);
     }
     return shellPresenter;
