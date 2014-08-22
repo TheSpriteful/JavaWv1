@@ -7,6 +7,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 /*
 import java.io.BufferedWriter;
@@ -238,6 +242,7 @@ public class GameManager {
 		if (editGame(game)) {
 			addGAMEToList(game);
 		}
+    writeFile();
 	}
 
 	public static void removeGame() {
@@ -448,4 +453,33 @@ public class GameManager {
 
 		return matchedGame;
 	}
+
+  private static void writeFile() {
+    String workingDirectory = System.getProperty("user.dir");
+    File outputFile = new File(workingDirectory + File.separator + "records.log");
+    // make sure parent directory exists
+    outputFile.getParentFile().mkdirs();
+
+    String content = serializeGames();
+
+    try {
+      FileWriter writer = new FileWriter(outputFile);
+      BufferedWriter bw = new BufferedWriter(writer);
+      bw.write(content);
+      bw.close();
+    } catch (IOException e) {
+      System.err.println("Unable to write file");
+      e.printStackTrace(System.err);
+    }
+  }
+
+  private static String serializeGames() {
+    StringBuilder sb = new StringBuilder();
+    if (gameList != null) {
+      for (GamesDLC gamesDLC : gameList) {
+        sb.append(gamesDLC).append("\n");
+      }
+    }
+    return sb.toString();
+  }
 }
