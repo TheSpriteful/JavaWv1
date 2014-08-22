@@ -8,9 +8,13 @@ import javax.swing.JTextField;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.*;
-
 /*
- * imports the Icon, ImageIcon, JOptionPane & JTextField from the Swing class
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+imports the Icon, ImageIcon, JOptionPane & JTextField from the Swing class
  */
 
 public class GameManager {
@@ -129,8 +133,10 @@ public class GameManager {
 	private static int maxSize = 5; // Creates a private variable "maxSize" of
 	// type "Int" and sets it to default of 5
 
-	private static List<GamesDLC> gameList = new ArrayList<GamesDLC>(); // Creates an
+	private static List<GamesDLC> gameList = new ArrayList<GamesDLC>();
 
+	// Creates
+	// an
 	// array list of
 	// type GamesDLC
 	// called
@@ -146,6 +152,20 @@ public class GameManager {
 		// gameList[currentSize] = aGame;
 		// currentSize++;
 
+		/*
+		 * try { File Data = new File("..//..//Data.txt");
+		 * 
+		 * if (!file.exists()) { file.createNewFile(); }
+		 * 
+		 * FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		 * BufferedWriter bw = new BufferedWriter(fw); bw.write(gameList);
+		 * bw.close(); }
+		 * 
+		 * catch (IOException ioe) { JOptionPane.showMessageDialog(null,
+		 * "Error Writing to List" + ioe + "\nPlease Try Again"); }
+		 */
+		// Tried to write Games from the "game list" but couldn't seem to get it
+		// to work. Did research, came up with nothing to help fix it
 	}
 
 	public static int menuMain() {
@@ -191,20 +211,21 @@ public class GameManager {
 				"GamesDLC Data Entry", JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE, anIcon);
 
-		if (response == JOptionPane.CANCEL_OPTION)
-			;
-		else {
-			try {
-				option = Integer.parseInt(opt.getText());
+		if (response != JOptionPane.CANCEL_OPTION) {
+			if (opt.getText().trim().isEmpty()) {
+				return option;
 			}
 
-			catch (Exception error) {
+			try {
+				option = Integer.parseInt(opt.getText());
+			} catch (Exception error) {
 				JOptionPane.showMessageDialog(null, "Data Input Error" + error
 						+ "\nPlease Try Again");
 			}
 		}
 		return option; // Returns the option variable to menuMain to select
-						// which menu to bring up next.
+		// which menu to bring up next.
+
 	}
 
 	public static void menuAddGame() throws CustomException {
@@ -259,7 +280,7 @@ public class GameManager {
 			// game not found. good to add
 			gameList.add(aGame);
 			Collections.sort(gameList);
-			//Arrays.sort(gameList);
+			// Arrays.sort(gameList);
 		} else {
 			JOptionPane.showMessageDialog(null, "Game already added.");
 		}
@@ -306,7 +327,7 @@ public class GameManager {
 		try {
 			editGame(matchedGame);
 		} catch (CustomException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}
@@ -368,6 +389,7 @@ public class GameManager {
 			gamesDLC.setPrice2hG(vprice2);
 			gamesDLC.setHrsContent(hrsContent);
 			gamesDLC.setDLC(vdlc);
+
 		} catch (Exception Error) {
 			JOptionPane.showMessageDialog(null, "Data Input Error" + Error
 					+ "\nPlease Try Again");
